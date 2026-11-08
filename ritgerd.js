@@ -10,6 +10,7 @@ function rgCss() {
   const st = document.createElement('style'); st.id = 'rgcss';
   st.textContent = `
 .rg{max-width:1080px;margin:0 auto;padding:26px 22px 70px}
+@media(max-width:760px){.nav{overflow-x:auto;scrollbar-width:none}.nav::-webkit-scrollbar{display:none}.nav button{flex:1 0 auto;padding-left:10px;padding-right:10px}}
 .rg h1{font:700 clamp(30px,5vw,52px)/1 var(--f-head);text-transform:uppercase;margin:0 0 10px;letter-spacing:-.01em}
 .rg h1 span{color:var(--red)}
 .rg .lead{font:18px/1.6 var(--f-text);max-width:72ch;margin:0 0 22px;color:var(--ink)}
@@ -90,21 +91,71 @@ function rgCss() {
 .rgtbl{width:100%;border-collapse:collapse;font:16px/1.45 var(--f-text);margin:0 0 16px}
 .rgtbl th,.rgtbl td{border:2px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
 .rgtbl th{font:600 13px/1.2 var(--f-head);letter-spacing:.1em;text-transform:uppercase;background:var(--panel)}
+
+.rgess-pick{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin:0 0 14px}
+.rgess-pick button{text-align:left;background:var(--paper);border:3px solid var(--line);padding:12px 14px;cursor:pointer;display:flex;flex-direction:column;gap:4px}
+.rgess-pick button i{font:700 22px/1 var(--f-head);font-style:normal;color:var(--red)}
+.rgess-pick button b{font:700 17px/1.15 var(--f-head);text-transform:uppercase}
+.rgess-pick button small{font:14px/1.35 var(--f-text);color:var(--muted)}
+.rgess-pick button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.rgess-pick button[aria-pressed="true"] small{color:var(--bg);opacity:.8}
+.rgess-pick button[aria-pressed="true"] i{color:var(--bg)}
+.rgess-bar{display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;margin:0 0 8px;font:15px/1.4 var(--f-text);color:var(--muted)}
+.rglegend{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px;font:13px/1.2 var(--f-head);letter-spacing:.04em}
+.rglegend>span{padding:4px 8px;border:1px solid var(--soft)}
+.rgessay-view{background:var(--paper);border:3px solid var(--line);padding:22px 26px;margin:0 0 18px}
+.rgessay-view h3{font:700 22px/1.15 var(--f-head);text-transform:none;letter-spacing:0;margin:0 0 12px}
+.rgessay-view p{font:calc(var(--fs) * .95)/1.75 var(--f-text);margin:0}
+.rgessay-view p.ind{text-indent:2.2em}
+.rgessay-view.struct p{margin:0 0 14px;position:relative}
+.rgessay-view .pn{position:absolute;left:-22px;top:2px;font:700 13px/1 var(--f-mono);font-style:normal;color:var(--red)}
+.struct .sg,.rglegend .sg{border-radius:3px;padding:1px 2px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.sg.hook{background:rgba(70,120,220,.18)}.sg.disc{background:rgba(140,140,140,.16)}.sg.thesis{background:rgba(193,18,31,.18);box-shadow:inset 0 -2px 0 var(--red)}
+.sg.topic{background:rgba(230,170,0,.25);font-weight:700}.sg.sup{background:transparent}.sg.close{background:rgba(45,122,62,.18);font-style:italic}
+.sg.restate{background:rgba(193,18,31,.12);box-shadow:inset 0 -2px 0 var(--red)}.sg.wide{background:rgba(70,120,220,.14)}
+.rglegend .sg.sup{border:1px dashed var(--soft)}
+b.lk{font-weight:700;color:#2d7a3e;text-decoration:underline 2px;text-underline-offset:3px}
+b.ct{background:rgba(193,18,31,.25);color:inherit}b.it{background:rgba(230,170,0,.35)}b.rt{background:rgba(240,120,0,.3)}
+.rgqp{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}.rgqp>div:first-child{grid-column:1/-1}
+@media(max-width:700px){.rgqp{grid-template-columns:1fr}}
+.rgpace{flex:1 1 100%;display:flex;position:relative;border:2px solid var(--line);height:26px;font:600 11px/22px var(--f-head);letter-spacing:.04em;text-transform:uppercase;overflow:hidden}
+.rgpace span{border-right:1px solid var(--line);text-align:center;white-space:nowrap;overflow:hidden;background:var(--bg)}
+.rgpace span:nth-child(odd){background:var(--panel)}
+.rgpace i{position:absolute;top:0;bottom:0;width:3px;background:var(--red);display:none}
+.rgpacemsg{flex:1 1 100%;font:15px/1.4 var(--f-text)}
+.rgwrite{display:grid;grid-template-columns:1fr 290px;gap:16px;align-items:start}
+@media(max-width:900px){.rgwrite{grid-template-columns:1fr}.rgside{position:static}.rgpacemsg{font-size:13px}}
+.rgside{position:sticky;top:calc(var(--hh,52px) + 165px)}
+.rgside h4{margin:0 0 6px;font:700 13px/1.2 var(--f-head);letter-spacing:.12em;text-transform:uppercase}
+.rgqpshow{border:2px solid var(--line);background:var(--paper);padding:10px 12px;margin:0 0 10px}
+.rgqpshow:empty{display:none}
+.rgqpshow ol{margin:0;padding-left:20px}.rgqpshow li{font:14px/1.4 var(--f-text);margin:0 0 3px}
+.rgmap{border:2px solid var(--line);background:var(--paper);padding:10px 12px}
+.pm{border-left:5px solid var(--soft);padding:4px 8px;margin:0 0 6px}
+.pm b{display:block;font:600 13px/1.2 var(--f-head);letter-spacing:.06em;text-transform:uppercase}
+.pm span{font:12px/1.3 var(--f-mono);color:var(--muted)}
+.pm small{display:block;font:13px/1.35 var(--f-text);color:var(--muted)}
+.pm.ok{border-color:#2d7a3e}.pm.ok small{color:#2d7a3e}.pm.warn{border-color:var(--red)}.pm.warn small{color:var(--red)}.pm.cur{border-color:#b07a00}
+.pm.empty{opacity:.5}
+.pb{height:5px;background:var(--bg);margin:3px 0}.pb i{display:block;height:100%;background:var(--ink)}
+.rghint p{border:2px solid var(--red);border-left-width:8px;background:var(--paper);padding:10px 12px;font:15px/1.5 var(--f-text);margin:10px 0 0}
 `;
   document.head.appendChild(st);
 }
-const rgSubs = () => [['task', rgT('Verkefnið', 'The task')], ['ideas', rgT('Hugmyndir', 'Ideas')], ['plan', rgT('Áætlunin mín', 'My plan')], ['words', rgT('Orðaforði', 'Vocabulary')], ['drill', rgT('Æfing', 'Practice')]];
+rgCss();
+const rgSubs = () => [['task', rgT('Verkefnið', 'The task')], ['ideas', rgT('Hugmyndir', 'Ideas')], ['samples', rgT('Sýnidæmi', 'Samples')], ['plan', rgT('Áætlunin mín', 'My plan')], ['words', rgT('Orðaforði', 'Vocabulary')], ['drill', rgT('Æfing', 'Practice')]];
 function renderRitgerd() {
   rgCss();
   if (!rgSubs().some(s => s[0] === RG.sub)) RG.sub = 'task';
   const nav = `<div class="rgsub" role="toolbar">${rgSubs().map(([k, l], i) => `<button data-rgsub="${k}" aria-pressed="${RG.sub === k}"><i>0${i + 1}</i>${l}</button>`).join('')}</div>`;
-  const body = RG.sub === 'ideas' ? rgIdeas() : RG.sub === 'plan' ? rgPlan() : RG.sub === 'words' ? rgVocab() : RG.sub === 'drill' ? rgDrill() : rgTask();
+  const body = RG.sub === 'ideas' ? rgIdeas() : RG.sub === 'samples' ? rgSamples() : RG.sub === 'plan' ? rgPlan() : RG.sub === 'words' ? rgVocab() : RG.sub === 'drill' ? rgDrill() : rgTask();
   $('#main').innerHTML = `<div class="rg"><h1>${rgT('Bókadómur', 'Book review')} <span>·</span> 1984</h1>
     <p class="lead">${rgT('Hér undirbýrðu ritgerðina sem þú skrifar í tíma, án bókar og án glósna. Ritgerðina sjálfa skrifar þú, en hér finnurðu kröfurnar, hugmyndir og dæmi úr bókinni, stað til að skipuleggja þín eigin rök og æfingu þar sem þú skrifar á tíma eins og í prófinu.', 'Prepare here for the essay you will write in class, with no book and no notes. You write the essay yourself; here you will find the requirements, ideas and examples from the book, a place to plan your own arguments, and timed practice that works like the real thing.')}</p>
     ${nav}<div id="rgbody">${body}</div></div>${foot()}`;
   $$('[data-rgsub]').forEach(b => b.onclick = () => { RG.sub = b.dataset.rgsub; rgSet('sub', RG.sub); renderRitgerd(); window.scrollTo(0, 0); });
   if (RG.sub === 'plan') rgPlanBind();
   if (RG.sub === 'drill') rgDrillBind();
+  if (RG.sub === 'samples') rgSamplesBind();
   $$('.rgchk input[data-k]').forEach(c => { c.checked = !!store.get('rg:c:' + c.dataset.k, false); c.onchange = () => store.set('rg:c:' + c.dataset.k, c.checked); });
   window.scrollTo(0, 0);
 }
@@ -254,62 +305,209 @@ function rgVocab() {
   <h2>${rgT('Setningarammar', 'Sentence frames')}</h2><div class="rgbox"><p style="margin-top:0">${rgT('Byrjanir sem þú klárar sjálf(ur) með þínum eigin hugmyndum:', 'Openings that you complete yourself with your own ideas:')}</p><ul lang="en">${frames.map(f => `<li>${esc(f)}</li>`).join('')}</ul></div>
   <h2>${rgT('Málfarsreglur', 'Grammar rules')}</h2><div class="rgbox"><ul style="margin:0">${(L === 'is' ? ['Notaðu <b>nútíð</b> um það sem gerist í bókinni: „Winston <i>works</i> at the Ministry of Truth“, ekki „worked“.', 'Engar styttingar: <i>do not, it is, cannot</i> í stað don’t, it’s, can’t.', '<i>Also</i> fer ekki fremst í setningu; notaðu <i>In addition,</i> eða <i>Moreover,</i>.', '<i>Although / Despite</i> þurfa tvo hluta: „Although Part One is slow, it builds the world.“', '<i>Because of</i> + nafnorð; <i>because</i> + heil setning.', 'Forðastu að byrja hverja setningu á „I think“. Skoðunin þín sést á rökunum.'] : ['Use the <b>present tense</b> for what happens in the book: “Winston <i>works</i> at the Ministry of Truth”, not “worked”.', 'No contractions: <i>do not, it is, cannot</i> instead of don’t, it’s, can’t.', '<i>Also</i> does not go at the start of a sentence; use <i>In addition,</i> or <i>Moreover,</i>.', '<i>Although / Despite</i> need two halves: “Although Part One is slow, it builds the world.”', '<i>Because of</i> + noun; <i>because</i> + a full clause.', 'Avoid starting every sentence with “I think”. Your arguments show your opinion.']).map(x => `<li>${x}</li>`).join('')}</ul></div>`;
 }
-/* --- 05 æfing --- */
+/* --- sýnidæmi: fjórar ritgerðir með ólíka afstöðu --- */
+const RG_ESSAYS = [
+  { title: 'A Warning Everyone Should Read', stance: { is: 'Lesa · persónur, heimur, endir', en: 'Read it · characters, world, ending' }, hook: { is: 'Spurning', en: 'Question' },
+    notes: { is: ['Klassísk uppbygging: rökin þrjú koma í sömu röð í thesis og meginmáli.', 'Hver efnisgrein hefur ákveðin dæmi: aldur Winstons, Parsons-börnin, herbergi 101.', 'Ein stutt tilvitnun, notuð þar sem hún skiptir mestu: í umræðu um endinn.'], en: ['Classic structure: the three arguments appear in the same order in the thesis and the body.', 'Each paragraph has specific examples: Winston’s age, the Parsons children, Room 101.', 'One short quotation, used where it matters most: in the discussion of the ending.'] },
+    p: [
+      [['hook', 'Have you ever had the feeling that someone is watching you?'], ['disc', 'For most of us it is only a passing thought, but for Winston Smith, the main character of George Orwell’s Nineteen Eighty-Four, it is everyday life. The novel was published in 1949 and describes a future Britain ruled by the Party and its leader, Big Brother.'], ['thesis', 'Nineteen Eighty-Four is a novel that everyone should read, because of its believable main character, its terrifying world and its powerful ending.']],
+      [['topic', 'Firstly, Winston is a hero the reader can truly believe in.'], ['sup', 'He is not strong or brave; he is thirty-nine years old, thin and suffers from an ulcer on his ankle. He is terrified of the Thought Police, and yet he secretly starts a diary, which is his first act of rebellion. Because he is so ordinary, the reader easily imagines being in his place and shares both his fear and his hope. He even feels guilty about how he treated his mother and little sister as a child, which gives him real depth.'], ['close', 'In short, Winston’s weaknesses are exactly what make him so believable.']],
+      [['topic', 'Secondly, the world of the novel is one of the most frightening ever written.'], ['sup', 'Telescreens watch people in their own homes, and they can never be switched off. Children are taught to spy on their parents, as the Parsons children do, and Winston’s job at the Ministry of Truth is to change old newspapers so that the Party is never wrong. Even the names are disturbing: the Ministry of Love is the place where prisoners are tortured. What makes this world so chilling is that much of it reminds us of surveillance and fake news today.'], ['close', 'Therefore, the setting is not only exciting to read about but also makes the reader think about our own society.']],
+      [['topic', 'Finally, the ending is shocking but perfectly suitable.'], ['sup', 'Many readers hope that Winston and Julia will defeat the Party, but in Room 101 Winston betrays the woman he loves. In the very last line we learn that “He loved Big Brother.” A happy ending would have been easier to read, but it would have weakened Orwell’s warning about what total power can do to a person.'], ['close', 'For this reason, the ending stays with the reader long after the last page.']],
+      [['restate', 'In conclusion, Nineteen Eighty-Four is a gripping and important novel thanks to its believable hero, its terrifying world and its unforgettable ending.'], ['wide', 'It is not always an easy read, but it teaches us to value freedom and to question what we are told. Everyone should read it at least once, because a world without freedom may be closer than we think.']]
+    ] },
+  { title: 'Worth the Effort', stance: { is: 'Lesa, þrátt fyrir galla · mótrök í thesis', en: 'Read it despite its flaws · counter-argument in the thesis' }, hook: { is: 'Sláandi staðreynd', en: 'Striking fact' },
+    notes: { is: ['Thesis byrjar á „Although…“: viðurkennir galla en heldur skoðuninni. Það sýnir þroskaða hugsun.', 'Gallinn (hægur 1. hluti, bók Goldsteins) er nefndur og svarað strax með „However“.', 'Snjallt smáatriði í 4. efnisgrein: viðaukinn í þátíð. Svona atriði lyfta einkunninni.'], en: ['The thesis opens with “Although…”: it admits a weakness but keeps the opinion. That shows mature thinking.', 'The weakness (slow Part One, Goldstein’s book) is named and answered at once with “However”.', 'A clever detail in paragraph 4: the appendix in the past tense. Details like this lift the grade.'] },
+    p: [
+      [['hook', 'Few novels written more than seventy years ago are still discussed every day, but Nineteen Eighty-Four by George Orwell is one of them.'], ['disc', 'Words from the book, such as “Big Brother” and “thought police”, appear in newspapers and on social media all over the world. However, many students find the novel difficult and give up after the first few chapters.'], ['thesis', 'Although Nineteen Eighty-Four has a slow beginning, it is well worth reading, because of its growing tension, its frightening relevance and its brave ending.']],
+      [['topic', 'To begin with, the novel becomes more and more gripping as the story goes on.'], ['sup', 'It is true that Part One is slow, as Orwell spends many pages describing Winston’s grey life in London. However, this description is necessary, because it shows the reader how dangerous even the smallest act of rebellion is. When Winston and Julia meet in the secret room above Mr Charrington’s shop, the reader feels constant tension, knowing that they will probably be caught.'], ['close', 'Consequently, the patient reader is rewarded with a story that is hard to put down.']],
+      [['topic', 'Moreover, the novel is frighteningly relevant today.'], ['sup', 'In the book, the Party controls people by watching them and by rewriting the past, and its slogan “Who controls the past controls the future” explains why. Today, we carry phones that know where we are, and false information can spread around the world in minutes. Orwell wrote the book long before the internet, yet it describes our time surprisingly well. Even the long extract from Goldstein’s book, which some readers find boring, explains clearly how power can be used to control people’s minds.'], ['close', 'As a result, the novel feels less like science fiction and more like a warning.']],
+      [['topic', 'Last but not least, Orwell has the courage to give the story a dark ending.'], ['sup', 'Instead of a heroic victory, Winston is broken by O’Brien in the Ministry of Love and forced to believe that two plus two make five. This is painful to read, but it is honest, because it shows that a totalitarian state wants to control not only what people do but also what they think. Interestingly, the appendix about Newspeak is written in the past tense, which may suggest that the Party did not last forever.'], ['close', 'Thus, the ending is both shocking and thought-provoking.']],
+      [['restate', 'To sum up, despite its slow start, Nineteen Eighty-Four is a rewarding novel because of its tension, its relevance and its courageous ending.'], ['wide', 'Readers who give it a chance will see the world around them with new eyes. It is a book that does not simply entertain; it teaches us to think for ourselves. If you start it, do not give up after Part One.']]
+    ] },
+  { title: 'Important, but Not Enjoyable', stance: { is: 'Sleppa · gagnrýnin afstaða', en: 'Avoid it · a critical stance' }, hook: { is: 'Tilvitnun', en: 'Quotation' },
+    notes: { is: ['Neikvæð afstaða getur líka fengið 10 ef hún er sanngjörn og vel studd.', 'Höfundurinn viðurkennir kosti bókarinnar („While this shows Orwell’s skill…“) en heldur sinni skoðun.', 'Lokaorðin gefa lesandanum raunhæft ráð í stað þess að segja bara „ekki lesa“.'], en: ['A negative stance can also earn a 10 if it is fair and well supported.', 'The writer admits the book’s strengths (“While this shows Orwell’s skill…”) but keeps the opinion.', 'The conclusion gives the reader realistic advice instead of just saying “do not read it”.'] },
+    p: [
+      [['hook', '“WAR IS PEACE. FREEDOM IS SLAVERY. IGNORANCE IS STRENGTH.”'], ['disc', 'These famous slogans come from George Orwell’s Nineteen Eighty-Four, a novel that is often called one of the most important books of the twentieth century. It is read in schools all over the world, and many people claim that everyone must read it. Important books, however, are not always enjoyable books.'], ['thesis', 'Unless you enjoy heavy and depressing stories, Nineteen Eighty-Four is a novel to avoid, because of its bleak atmosphere, its slow style and its hopeless ending.']],
+      [['topic', 'Firstly, the atmosphere of the novel is extremely bleak.'], ['sup', 'From the first page, everything in London is grey, dirty and cold, and the hallway of Victory Mansions smells of boiled cabbage. Even colour seems to have disappeared, except on the posters of Big Brother. Nobody in the book seems happy, and even family life is poisoned by fear, as when Parsons is reported to the Thought Police by his own daughter. While this shows Orwell’s skill, it makes the book a heavy experience for anyone who reads for pleasure.'], ['close', 'Therefore, readers looking for an exciting escape will not find it here.']],
+      [['topic', 'Secondly, the story often moves very slowly.'], ['sup', 'Long sections of the book explain the Party’s ideas instead of telling a story. The clearest example is the extract from Goldstein’s book in Part Two, which reads like a school textbook and stops the action for many pages. Similarly, O’Brien’s long speeches in the Ministry of Love feel more like lectures than real conversations. Many readers will be tempted to skip these pages, and some may give up on the book entirely.'], ['close', 'As a result, the reader may feel that Orwell cares more about his message than about his characters.']],
+      [['topic', 'Finally, the ending leaves the reader with no hope at all.'], ['sup', 'After all his struggles, Winston betrays Julia in Room 101 when he begs the guards to “Do it to Julia!” He ends up sitting alone in the Chestnut Tree Café, drinking gin, and the book closes with the words “He loved Big Brother.” Some readers admire this courage, but many close the book feeling empty and sad.'], ['close', 'In other words, the ending is powerful but deeply depressing.']],
+      [['restate', 'In conclusion, Nineteen Eighty-Four may be a famous classic, but its bleak world, slow passages and hopeless ending make it a difficult book to enjoy.'], ['wide', 'If you simply want to understand its ideas, a good summary or the film might be enough. Life is too short to spend weeks with a book that only makes you feel worse, when so many other books teach important lessons without leaving the reader miserable.']]
+    ] },
+  { title: 'A Must-Read for Young People', stance: { is: 'Lesa · hugmyndir og boðskapur', en: 'Read it · ideas and message' }, hook: { is: 'Ímyndaðu þér…', en: 'Imagine…' },
+    notes: { is: ['Rökin fjalla um hugmyndir bókarinnar, ekki persónur og söguþráð. Það er líka leyfilegt.', 'Ritgerðin talar beint til markhópsins (ungs fólks) og tengir bókina við líf þess.', 'Endirinn snýr aftur að frægri setningu úr bókinni: falleg „hringlokun“.'], en: ['The arguments are about the book’s ideas, not its characters and plot. That is allowed too.', 'The essay speaks directly to its audience (young people) and links the book to their lives.', 'The ending returns to a famous line from the book: a neat way to “close the circle”.'] },
+    p: [
+      [['hook', 'Imagine a world where it is a crime to think the wrong thoughts and where the dictionary gets thinner every year.'], ['disc', 'This is the world of George Orwell’s Nineteen Eighty-Four, in which Winston Smith tries to stay human under the rule of the Party and Big Brother. The book was written in 1949, yet its ideas are discussed more today than ever before.'], ['thesis', 'Nineteen Eighty-Four is a must-read for young people, because it shows the power of language, the importance of truth and the danger of losing our privacy.']],
+      [['topic', 'First of all, the novel shows how language can be used to control people.'], ['sup', 'The Party is creating Newspeak, a language with fewer and fewer words. Winston’s colleague Syme explains proudly that the aim is to make rebellious thoughts impossible, because there will be no words to express them. This idea may sound strange at first, but it makes the reader realise how important a rich vocabulary is for free thinking. Tellingly, Syme himself later vanishes, as if he had never existed.'], ['close', 'Thus, the novel teaches us that words are not only for communication but also for freedom.']],
+      [['topic', 'In addition, the book makes the reader think about truth.'], ['sup', 'Winston works at the Ministry of Truth, where his job is to rewrite old articles so that the Party is always right. Early in the book he writes in his diary that freedom is the freedom to say that two plus two make four. Later, however, O’Brien forces him to accept that two plus two make five if the Party says so. The scene is painful to read, because the reader knows that Winston is right.'], ['close', 'Consequently, the reader understands that defending simple facts can be an act of courage.']],
+      [['topic', 'Most importantly, the novel is a warning about privacy that feels very modern.'], ['sup', 'In Winston’s flat, the telescreen both watches and listens, and it can never be turned off. Today, many of us carry smartphones with cameras and microphones, and we share our lives online without thinking twice. Orwell could not have known about the internet, but his picture of a society where everybody is watched is surprisingly close to ours.'], ['close', 'For this reason, young readers in particular will find the book relevant to their own lives.']],
+      [['restate', 'In light of all these points, it is clear that Nineteen Eighty-Four is an essential book for young people, thanks to its lessons about language, truth and privacy.'], ['wide', 'Although it is dark and sometimes demanding, it gives readers the tools to recognise manipulation when they see it. Read it, and you will never hear the words “Big Brother is watching you” in the same way again.']]
+    ] }
+];
+/* --- sýnidæmi --- */
+const RG_ROLES = { hook: ['Kveikja', 'Hook'], disc: ['Umræða', 'Discussion'], thesis: ['Thesis', 'Thesis'], topic: ['Topic sentence', 'Topic sentence'], sup: ['Stuðningur og dæmi', 'Support and examples'], close: ['Closing sentence', 'Closing sentence'], restate: ['Thesis endurorðuð', 'Thesis restated'], wide: ['Endað vítt', 'Ending wide'] };
+const rgLinkRe = () => new RegExp(`(^|[\\s“"(])(${[...RG_LINK].sort((a, b) => b.length - a.length).map(l => l.replace(/ /g, '\\s+')).join('|')})(?=[\\s,.;:])`, 'gi');
+function rgSamples() {
+  const st = store.get('rg:struct', true), sel = Math.min(RG_ESSAYS.length - 1, store.get('rg:ess', 0)), e = RG_ESSAYS[sel];
+  const words = rgWords(e.p.map(p => p.map(s => s[1]).join(' ')).join(' '));
+  const seg = ([r, x]) => { let h = esc(x); if (st) h = h.replace(rgLinkRe(), (m, pre, w) => `${pre}<b class="lk">${w}</b>`); return `<span class="sg ${r}" data-r="${RG_ROLES[r][L === 'is' ? 0 : 1]}">${h}</span>`; };
+  return `<div class="rgbox red"><p style="margin:0">${rgT('Fjórar ritgerðir með ólíka afstöðu og ólíkar kveikjur, til að sjá hvernig uppbyggingin virkar í reynd. <b>Ekki læra þær utan að.</b> Kennarinn þekkir þær og ritgerð sem er lærð utan að hljómar ekki eins og þín. Notaðu þær til að sjá hvernig thesis, topic sentences, dæmi og tengiorð vinna saman, og skrifaðu svo þína eigin.', 'Four essays with different stances and different hooks, so you can see how the structure works in practice. <b>Do not memorise them.</b> Your teacher knows them, and a memorised essay does not sound like yours. Use them to see how the thesis, topic sentences, examples and linking words work together, then write your own.')}</p></div>
+  <div class="rgess-pick" role="toolbar">${RG_ESSAYS.map((x, i) => `<button data-ess="${i}" aria-pressed="${i === sel}"><i>${String.fromCharCode(65 + i)}</i><b lang="en">${esc(x.title)}</b><small>${x.stance[L]}</small></button>`).join('')}</div>
+  <div class="rgess-bar"><button class="rgbtn ${st ? '' : 'alt'}" id="rgstruct" aria-pressed="${st}">${st ? rgT('Fela uppbygginguna', 'Hide the structure') : rgT('Sýna uppbygginguna', 'Show the structure')}</button><span>${words} ${rgT('orð', 'words')} · ${rgT('Kveikja', 'Hook')}: ${e.hook[L]}</span></div>
+  ${st ? `<div class="rglegend">${['hook', 'disc', 'thesis', 'topic', 'sup', 'close', 'restate', 'wide'].map(r => `<span class="sg ${r}">${RG_ROLES[r][L === 'is' ? 0 : 1]}</span>`).join('')}<span><b class="lk">${rgT('tengiorð', 'linking word')}</b></span></div>` : ''}
+  <article class="rgessay-view ${st ? 'struct' : ''}" lang="en"><h3>${esc(e.title)}</h3>${e.p.map((p, i) => `<p${i ? ' class="ind"' : ''}>${st ? `<em class="pn">${i + 1}</em>` : ''}${p.map(seg).join(' ')}</p>`).join('')}</article>
+  <div class="rgbox"><h3>${rgT('Hvað gerir þessa ritgerð góða?', 'What makes this essay good?')}</h3><ul style="margin:0">${e.notes[L].map(n => `<li>${n}</li>`).join('')}</ul></div>
+  <div class="rgbox"><h3>${rgT('Prófaðu þetta', 'Try this')}</h3><ul style="margin:0">${(L === 'is' ? ['Lestu bara thesis-setningarnar fjórar. Sérðu skoðunina og rökin þrjú í hverri?', 'Lestu bara fyrstu setningu hverrar efnisgreinar. Ættirðu að geta sagt um hvað ritgerðin er?', 'Finndu dæmin úr bókinni. Hvaða dæmi myndir þú nota sem eru ekki hér?', 'Berðu saman ritgerð A og C: sömu bók, öfug afstaða, og báðar vel rökstuddar.'] : ['Read only the four thesis sentences. Can you see the opinion and the three arguments in each?', 'Read only the first sentence of each paragraph. Could you tell what the essay is about?', 'Find the examples from the book. Which examples would you use that are not here?', 'Compare essay A and C: the same book, the opposite stance, both well argued.']).map(n => `<li>${n}</li>`).join('')}</ul></div>`;
+}
+function rgSamplesBind() {
+  $$('[data-ess]').forEach(b => b.onclick = () => { store.set('rg:ess', +b.dataset.ess); renderRitgerd(); });
+  const s = $('#rgstruct'); if (s) s.onclick = () => { store.set('rg:struct', !store.get('rg:struct', true)); const y = window.scrollY; renderRitgerd(); window.scrollTo(0, y); };
+}
+/* --- 06 æfing --- */
+const RG_PHASES = () => [[0.08, rgT('Beinagrind', 'Plan')], [0.14, rgT('Inngangur', 'Intro')], [0.2, rgT('Efnisgr. 2', 'Para 2')], [0.2, rgT('Efnisgr. 3', 'Para 3')], [0.2, rgT('Efnisgr. 4', 'Para 4')], [0.1, rgT('Lokaorð', 'Concl.')], [0.08, rgT('Yfirlestur', 'Check')]];
+const RG_PROLE = () => [rgT('Inngangur', 'Introduction'), rgT('Rök A', 'Argument A'), rgT('Rök B', 'Argument B'), rgT('Rök C', 'Argument C'), rgT('Lokaorð', 'Conclusion')];
 function rgDrill() {
   const keys = [['thesis', 'Thesis'], ['k2', `${rgT('Lykill', 'Key')} A`], ['k3', `${rgT('Lykill', 'Key')} B`], ['k4', `${rgT('Lykill', 'Key')} C`]];
   const hist = store.get('rg:hist', []);
   const hasPlan = keys.some(k => String(rgGet('p:' + k[0]) || '').trim());
-  return `<h2 style="margin-top:0">${rgT('Minnisæfing', 'Memory drill')}</h2>
+  const qp = [['thesis', rgT('Thesis: skoðun + A, B, C', 'Thesis: opinion + A, B, C')], ['a', rgT('A: rök + eitt dæmi', 'A: argument + one example')], ['b', rgT('B: rök + eitt dæmi', 'B: argument + one example')], ['c', rgT('C: rök + eitt dæmi', 'C: argument + one example')], ['end', rgT('Lokaskilaboð til lesandans', 'Final message to the reader')]];
+  return `<div class="rgbox red"><h3>${rgT('Hvernig á að æfa sig', 'How to practise')}</h3><ol style="margin:0">${(L === 'is' ? ['<b>Minnisæfing</b> (2 mín): skrifaðu thesis og lyklana eftir minni.', '<b>Beinagrind</b> (3 mín): punktaðu niður 5 línur áður en klukkan fer af stað. Hún sést við hliðina á textanum á meðan þú skrifar.', '<b>Skrifaðu á tíma.</b> Kortið til hliðar sýnir hverja efnisgrein og tímalínan segir hvort þú sért á áætlun. Ef þú festist: „Ég er stopp“.', '<b>Farðu yfir.</b> Lestu yfirferðina og merkta textann og lagaðu þá 2–3 hluti sem skipta mestu í næstu tilraun.'] : ['<b>Memory drill</b> (2 min): write your thesis and keys from memory.', '<b>Skeleton</b> (3 min): jot down 5 lines before starting the clock. It stays next to your text while you write.', '<b>Write against the clock.</b> The map beside the text shows each paragraph and the timeline tells you if you are on schedule. If you get stuck: “I am stuck”.', '<b>Check.</b> Read the feedback and the marked text and fix the 2–3 things that matter most in your next attempt.']).map(x => `<li>${x}</li>`).join('')}</ol></div>
+  <h2>1 · ${rgT('Minnisæfing', 'Memory drill')}</h2>
   <div class="rgbox">${hasPlan ? `<p style="margin-top:0">${rgT('Skrifaðu thesis og minnislyklana eftir minni. Svo berðu saman við áætlunina.', 'Write your thesis and memory keys from memory. Then compare with your plan.')}</p>
     <div class="rgmem">${keys.map(([k, l]) => `<div data-mem="${k}"><div class="rgf" style="margin:0"><label for="rgm-${k}">${l}</label><input type="text" id="rgm-${k}" lang="en" autocomplete="off"></div><div class="ans" lang="en">${esc(rgGet('p:' + k)) || '—'}</div></div>`).join('')}</div>
     <p><button class="rgbtn" id="rgmchk">${rgT('Bera saman', 'Compare')}</button><button class="rgbtn alt" id="rgmclr">${rgT('Reyna aftur', 'Try again')}</button></p><div id="rgmres"></div>`
     : `<p style="margin:0">${rgT('Fylltu fyrst út thesis og minnislyklana í „Áætlunin mín“.', 'First fill in the thesis and memory keys in “My plan”.')}</p>`}</div>
-  <h2>${rgT('Skrifa á tíma, eins og í prófinu', 'Timed writing, like the real thing')}</h2>
-  <p>${rgT('Engin áætlun, engin bók. Ýttu á Tab í byrjun efnisgreinar til að draga inn og ekki hafa auðar línur á milli. Það sem þú skrifar vistast í vafranum.', 'No plan, no book. Press Tab at the start of a paragraph to indent, and leave no empty lines between paragraphs. What you write is saved in the browser.')}</p>
+  <h2>2 · ${rgT('Beinagrind á 3 mínútum', 'A 3-minute skeleton')}</h2>
+  <div class="rgbox"><p style="margin-top:0">${rgT('Eftir minni, í stikkorðum. Margir punkta þetta niður fyrstu mínúturnar í prófinu svo þeir gleymi engu.', 'From memory, in keywords. Many students jot this down in the first minutes of the test so they forget nothing.')}</p>
+    <div class="rgqp">${qp.map(([k, l]) => `<div class="rgf" style="margin:0 0 10px"><label for="rgq-${k}">${l}</label><input type="text" id="rgq-${k}" data-rgq="${k}" lang="en" autocomplete="off" value="${esc(rgGet('q:' + k))}"></div>`).join('')}</div>
+    <button class="rgbtn alt" id="rgqclr" style="margin-bottom:0">${rgT('Hreinsa beinagrind', 'Clear skeleton')}</button></div>
+  <h2>3 · ${rgT('Skrifa á tíma, eins og í prófinu', 'Timed writing, like the real thing')}</h2>
+  <p>${rgT('Engin áætlun, engin bók. Ýttu á Tab í byrjun efnisgreinar til að draga inn; engar auðar línur á milli. Það sem þú skrifar vistast í vafranum.', 'No plan, no book. Press Tab at the start of a paragraph to indent; no empty lines between paragraphs. What you write is saved in the browser.')}</p>
   <div class="rgtimer"><span class="clock" id="rgclock">${String(RG.dur).padStart(2, '0')}:00</span>
     <label><span class="sr">${rgT('Lengd', 'Length')}</span><select id="rgdur">${[30, 40, 45, 50, 60, 80].map(m => `<option value="${m}" ${m === RG.dur ? 'selected' : ''}>${m} min</option>`).join('')}</select></label>
     <button class="rgbtn" id="rgstart" style="margin:0">${RG.end ? rgT('Stöðva', 'Stop') : rgT('Byrja', 'Start')}</button>
-    <span class="wc"><b id="rgwc">0</b> ${rgT('orð', 'words')} · <b id="rgpc">0</b> ${rgT('efnisgreinar', 'paragraphs')}</span></div>
-  <textarea class="rgessay" id="rgessay" lang="en" spellcheck="false" placeholder="${rgT('Skrifaðu ritgerðina hér…', 'Write your essay here…')}">${esc(rgGet('draft'))}</textarea>
+    <span class="wc"><b id="rgwc">0</b> ${rgT('orð', 'words')} · <b id="rgpc">0</b>/5 ${rgT('efnisgr.', 'paras')}</span>
+    <div class="rgpace" id="rgpace">${RG_PHASES().map(([w, l]) => `<span style="flex:${w}">${l}</span>`).join('')}<i id="rgpmark"></i></div>
+    <div class="rgpacemsg" id="rgpacemsg">${rgT('Tímalínan sýnir hvar þú ættir að vera. Byrjaðu klukkuna þegar beinagrindin er tilbúin.', 'The timeline shows where you should be. Start the clock when your skeleton is ready.')}</div></div>
+  <div class="rgwrite"><textarea class="rgessay" id="rgessay" lang="en" spellcheck="false" placeholder="${rgT('Skrifaðu ritgerðina hér…', 'Write your essay here…')}">${esc(rgGet('draft'))}</textarea>
+    <aside class="rgside"><div class="rgqpshow" id="rgqpshow"></div><div class="rgmap" id="rgmap"></div>
+      <button class="rgbtn" id="rghint" style="width:100%;margin:10px 0 0">${rgT('Ég er stopp', 'I am stuck')}</button><div class="rghint" id="rghintbox" aria-live="polite"></div></aside></div>
   <p style="margin-top:12px"><button class="rgbtn" id="rgdone">${rgT('Klára og fara yfir', 'Finish and check')}</button><button class="rgbtn alt" id="rgnew">${rgT('Nýtt uppkast', 'New draft')}</button></p>
   <div id="rgres"></div>
   ${hist.length ? `<h2>${rgT('Fyrri tilraunir', 'Earlier attempts')}</h2><table class="rgtbl"><thead><tr><th>${rgT('Dags.', 'Date')}</th><th>${rgT('Orð', 'Words')}</th><th>${rgT('Efnisgr.', 'Paragraphs')}</th><th>${rgT('Mínútur', 'Minutes')}</th><th>${rgT('Gátlisti', 'Checklist')}</th></tr></thead><tbody>${hist.slice(-8).reverse().map(h => `<tr><td>${esc(h.d)}</td><td>${h.w}</td><td>${h.p}</td><td>${h.m ?? '–'}</td><td>${h.s}</td></tr>`).join('')}</tbody></table>` : ''}`;
 }
 function rgParas(txt) { return String(txt || '').split(/\n+/).map(s => s.trim()).filter(Boolean); }
-function rgCount() { const ta = $('#rgessay'); if (!ta) return; const w = rgWords(ta.value), p = rgParas(ta.value).length; const a = $('#rgwc'), b = $('#rgpc'); if (a) { a.textContent = w; a.style.color = w > 500 ? 'var(--red)' : w >= 400 ? '#2d7a3e' : ''; } if (b) b.textContent = p; }
+const rgStartsLink = p => { const s = String(p).toLowerCase().replace(/^[\s"“]+/, ''); return RG_LINK.some(l => s.startsWith(l)); };
+const rgSents = p => (String(p).match(/[^.!?]+[.!?]+(["”’]|\s|$)/g) || []).length + (/[^.!?\s]\s*$/.test(p) ? 1 : 0);
+const RG_BOOK = ['winston', 'julia', 'o’brien', "o'brien", 'big brother', 'room 101', 'telescreen', 'newspeak', 'ministry', 'party', 'charrington', 'syme', 'parsons', 'goldstein', 'thought police', 'proles', 'doublethink', 'diary', 'victory', 'chestnut', 'oceania', 'london', 'ingsoc', 'two minutes hate', 'hate week', 'paperweight'];
+function rgParaInfo(p, i) {
+  const w = rgWords(p), s = rgSents(p), low = p.toLowerCase(), book = RG_BOOK.filter(n => low.includes(n)).length, tips = [];
+  if (i > 0 && !rgStartsLink(p)) tips.push(rgT('byrjar ekki á tengiorði', 'no linking word at the start'));
+  if (i === 0) { const last = (p.split(/(?<=[.!?])\s+/).pop() || ''); if (s >= 2 && !(/,/.test(last) && /\band\b/i.test(last))) tips.push(rgT('thesis með A, B and C í lokin?', 'thesis with A, B and C at the end?')); }
+  if (i === 0 && w < 45 && s >= 2) tips.push(rgT('stuttur inngangur: kveikja + umræða + thesis', 'short intro: hook + discussion + thesis'));
+  if (i >= 1 && i <= 3) { if (s < 5) tips.push(rgT(`${s}/5 setningar`, `${s}/5 sentences`)); else if (w < 65) tips.push(rgT('stutt: bættu við ákveðnu dæmi', 'short: add a specific example')); if (!book) tips.push(rgT('vantar dæmi úr bókinni', 'no example from the book')); }
+  if (i === 4 && !/^(in conclusion|to conclude|to sum up|in summary|all in all|in light of|in short)/i.test(p)) tips.push(rgT('byrjaðu á In conclusion…', 'start with In conclusion…'));
+  if (i >= 1 && i <= 3 && w > 130) tips.push(rgT('löng: ertu að endursegja?', 'long: are you retelling?'));
+  return { w, s, book, tips };
+}
+function rgCount() {
+  const ta = $('#rgessay'); if (!ta) return;
+  const ps = rgParas(ta.value), w = rgWords(ta.value);
+  const a = $('#rgwc'), b = $('#rgpc'); if (a) { a.textContent = w; a.style.color = w > 500 ? 'var(--red)' : w >= 400 ? '#2d7a3e' : ''; } if (b) b.textContent = ps.length;
+  const map = $('#rgmap'); if (map) {
+    const tgt = [70, 90, 90, 90, 60];
+    map.innerHTML = `<h4>${rgT('Efnisgreinarnar', 'Your paragraphs')}</h4>` + RG_PROLE().map((r, i) => {
+      const p = ps[i]; if (!p) return `<div class="pm empty"><b>${i + 1} · ${r}</b><span>—</span></div>`;
+      const inf = rgParaInfo(p, i), cur = i === ps.length - 1;
+      const cls = inf.tips.length ? (cur ? 'cur' : 'warn') : 'ok';
+      return `<div class="pm ${cls}"><b>${i + 1} · ${r}</b><span>${inf.w} ${rgT('orð', 'w')} · ${inf.s} ${rgT('setn.', 'sent.')}</span><div class="pb"><i style="width:${Math.min(100, inf.w / tgt[i] * 100)}%"></i></div>${inf.tips.length ? `<small>${inf.tips.join(' · ')}</small>` : `<small>✓</small>`}</div>`;
+    }).join('') + (ps.length > 5 ? `<div class="pm warn"><b>${ps.length} ${rgT('efnisgreinar', 'paragraphs')}</b><small>${rgT('á að vera 5', 'should be 5')}</small></div>` : '');
+  }
+  const qs = $('#rgqpshow'); if (qs) { const v = ['thesis', 'a', 'b', 'c', 'end'].map(k => String(rgGet('q:' + k) || '').trim()); qs.innerHTML = v.some(Boolean) ? `<h4>${rgT('Beinagrindin þín', 'Your skeleton')}</h4><ol lang="en">${v.map(x => `<li>${esc(x) || '…'}</li>`).join('')}</ol>` : ''; }
+  rgPace();
+}
+function rgPace() {
+  const mk = $('#rgpmark'), msg = $('#rgpacemsg'); if (!mk || !msg) return;
+  if (!RG.end) { mk.style.display = 'none'; msg.textContent = rgT('Tímalínan sýnir hvar þú ættir að vera. Byrjaðu klukkuna þegar beinagrindin er tilbúin.', 'The timeline shows where you should be. Start the clock when your skeleton is ready.'); return; }
+  const tot = RG.dur * 60000, el = Math.min(tot, Date.now() - (RG.end - tot)), f = el / tot;
+  mk.style.display = 'block'; mk.style.left = (f * 100) + '%';
+  const ph = RG_PHASES(); let acc = 0, idx = 0; for (let i = 0; i < ph.length; i++) { if (f < acc + ph[i][0]) { idx = i; break; } acc += ph[i][0]; idx = i; }
+  const ta = $('#rgessay'), n = ta ? rgParas(ta.value).length : 0, w = ta ? rgWords(ta.value) : 0;
+  const should = Math.max(0, Math.min(5, idx));
+  let m = rgT(`Núna: ${ph[idx][1]}. `, `Now: ${ph[idx][1]}. `);
+  if (idx === 0) m += rgT('Rifjaðu upp thesis og rökin þrjú.', 'Recall your thesis and three arguments.');
+  else if (idx === 6) m += w >= 400 ? rgT('Lestu yfir: tengiorð, styttingar, stafsetning nafna.', 'Read through: linking words, contractions, spelling of names.') : rgT('Kláraðu lokaorðin strax, svo yfirlestur.', 'Finish the conclusion now, then read through.');
+  else if (n < should) m += rgT(`Þú ert í efnisgrein ${Math.max(1, n)}; reyndu að ljúka henni og halda áfram. Styttu dæmin frekar en að sleppa lokaorðum.`, `You are on paragraph ${Math.max(1, n)}; try to finish it and move on. Shorten examples rather than skip the conclusion.`);
+  else if (n > should + 1) m += rgT('Þú ert á undan áætlun. Gott! Notaðu tímann í betri dæmi og yfirlestur.', 'You are ahead of schedule. Good! Use the time for better examples and checking.');
+  else m += rgT('Þú ert á áætlun.', 'You are on schedule.');
+  msg.textContent = m;
+}
+function rgHint() {
+  const ta = $('#rgessay'), ps = rgParas(ta ? ta.value : ''), w = rgWords(ta ? ta.value : '');
+  const k = ps.length ? ps.length - 1 : 0, p = ps[k] || '', inf = p ? rgParaInfo(p, k) : null;
+  RG.hint = (RG.hint || 0) + 1;
+  const pick = a => a[(RG.hint - 1) % a.length];
+  const key = i => String(rgGet('q:' + 'abc'[i]) || rgGet('p:k' + (i + 2)) || '').trim();
+  let h;
+  if (w >= 500) h = rgT('Þú ert kominn yfir 500 orð. Ljúktu efnisgreininni og farðu í lokaorðin eða yfirlestur.', 'You are past 500 words. Finish this paragraph and move to the conclusion or to checking.');
+  else if (!ps.length) h = pick(L === 'is' ? ['Byrjaðu á kveikju: spurningu til lesandans („Have you ever…?“), sláandi staðreynd eða stuttri tilvitnun.', 'Skrifaðu thesis fyrst ef þú manst hana, og settu svo kveikju og umræðu fyrir framan hana.', 'Rammi fyrir thesis: „[Title] is a novel that everyone should / should not read, because A, B and C.“'] : ['Start with a hook: a question to the reader (“Have you ever…?”), a striking fact or a short quotation.', 'Write your thesis first if you remember it, then put the hook and discussion in front of it.', 'Thesis frame: “[Title] is a novel that everyone should / should not read, because A, B and C.”']);
+  else if (k === 0 && inf && inf.tips.length) h = rgT('Inngangurinn endar á thesis: skoðun + þrenn rök. „…, because A, B and C.“ Ýttu svo á Enter og Tab og byrjaðu efnisgrein 2 á „Firstly,“.', 'The introduction ends with the thesis: opinion + three arguments. “…, because A, B and C.” Then press Enter and Tab and start paragraph 2 with “Firstly,”.');
+  else if (k === 0) h = rgT(`Byrjaðu efnisgrein 2 (Enter + Tab): „Firstly, …“ og topic sentence um rök A${key(0) ? ` (${key(0)})` : ''}.`, `Start paragraph 2 (Enter + Tab): “Firstly, …” and a topic sentence about argument A${key(0) ? ` (${key(0)})` : ''}.`);
+  else if (k >= 1 && k <= 3) {
+    const lw = [['Firstly,', 'To begin with,'], ['Secondly,', 'Moreover,', 'In addition,'], ['Finally,', 'Lastly,', 'Last but not least,']][k - 1];
+    if (inf.s >= 5 && inf.w >= 65 && !inf.tips.length) h = k < 3 ? rgT(`Efnisgreinin er nógu löng. Endaðu á closing sentence („Therefore, …“, „In short, …“) og byrjaðu næstu á „${[['Secondly,'], ['Finally,']][k - 1][0]}“ um rök ${'BC'[k - 1]}${key(k) ? ` (${key(k)})` : ''}.`, `This paragraph is long enough. End with a closing sentence (“Therefore, …”, “In short, …”) and start the next with “${[['Secondly,'], ['Finally,']][k - 1][0]}” about argument ${'BC'[k - 1]}${key(k) ? ` (${key(k)})` : ''}.`) : rgT('Efnisgrein 4 er tilbúin. Byrjaðu lokaorðin: „In conclusion, …“ og endurtaktu skoðunina með rökunum þremur í nýjum orðum.', 'Paragraph 4 is done. Start the conclusion: “In conclusion, …” and restate your opinion with the three arguments in new words.');
+    else h = pick(L === 'is' ? [`Rök ${'ABC'[k - 1]}${key(k - 1) ? ` (${key(k - 1)})` : ''}. Hvaða persóna, staður eða atvik sannar þetta? Byrjaðu á „A clear example of this is when …“`, 'Hvernig lætur þetta lesandanum líða? „This makes the reader feel …“', 'Er galli sem þú getur viðurkennt og svarað? „Although some readers may find …, …“', `Tengiorð sem passa hér: ${lw.join(' ')} · For example, · However, · Therefore,`, 'Ekki segja hvað gerist næst í sögunni. Segðu hvers vegna það skiptir máli fyrir lesandann.'] : [`Argument ${'ABC'[k - 1]}${key(k - 1) ? ` (${key(k - 1)})` : ''}. Which character, place or event proves it? Start with “A clear example of this is when …”`, 'How does this make the reader feel? “This makes the reader feel …”', 'Is there a weakness you can admit and answer? “Although some readers may find …, …”', `Linking words that fit here: ${lw.join(' ')} · For example, · However, · Therefore,`, 'Do not say what happens next in the story. Say why it matters to the reader.']);
+  } else h = pick(L === 'is' ? ['Lokaorð: In conclusion + skoðunin + A, B og C í öðrum orðum. Ekkert nýtt.', 'Endaðu vítt: hvað á lesandinn að gera eða hugsa? „Everyone should …“, „It is a book that …“', 'Tvær til þrjár setningar duga. Svo yfirlestur: tengiorð, styttingar, nöfn rétt stafsett.'] : ['Conclusion: In conclusion + your opinion + A, B and C in other words. Nothing new.', 'End wide: what should the reader do or think? “Everyone should …”, “It is a book that …”', 'Two or three sentences are enough. Then check: linking words, contractions, names spelled correctly.']);
+  const box = $('#rghintbox'); if (box) box.innerHTML = `<p>${h}</p>`;
+}
 function rgTick() {
   const c = $('#rgclock'); if (!RG.end) return;
   const left = Math.max(0, Math.round((RG.end - Date.now()) / 1000));
   if (c) { c.textContent = `${String(Math.floor(left / 60)).padStart(2, '0')}:${String(left % 60).padStart(2, '0')}`; c.classList.toggle('low', left <= 300); }
+  rgPace();
   if (!left) { clearInterval(RG.iv); RG.iv = 0; RG.end = 0; const s = $('#rgstart'); if (s) s.textContent = rgT('Byrja', 'Start'); if (c) c.textContent = rgT('Búið!', 'Time!'); rgCheck(true); }
+}
+function rgMark(p) {
+  let h = esc(p);
+  h = h.replace(rgLinkRe(), (m, pre, w) => `${pre}<b class="lk">${w}</b>`);
+  h = h.replace(/\b((?:don|doesn|didn|isn|aren|wasn|weren|can|couldn|won|wouldn|shouldn|it|that|there|they|we|you|i)['’](?:t|s|re|ve|ll|d|m))\b/gi, '<b class="ct" title="contraction">$1</b>');
+  h = h.replace(/\b(I think)\b/gi, '<b class="it">$1</b>');
+  h = h.replace(/\b(and then|after that|then he|then she|then they)\b/gi, '<b class="rt">$1</b>');
+  return h;
 }
 function rgCheck(timed) {
   const ta = $('#rgessay'); if (!ta) return;
   const txt = ta.value, ps = rgParas(txt), w = rgWords(txt), low = txt.toLowerCase();
-  const startsLink = p => { const s = p.toLowerCase().replace(/^[\s"“]+/, ''); return RG_LINK.some(l => s.startsWith(l)); };
   const links = RG_LINK.filter(l => new RegExp(`\\b${l.replace(/ /g, '\\s+')}\\b`, 'i').test(low));
-  const contr = (txt.match(/\b(don|doesn|didn|isn|aren|wasn|weren|can|couldn|won|wouldn|shouldn|it|that|there|he|she|they|we|you|i)['’](t|s|re|ve|ll|d|m)\b/gi) || []);
+  const contr = txt.match(/\b(don|doesn|didn|isn|aren|wasn|weren|can|couldn|won|wouldn|shouldn|it|that|there|he|she|they|we|you|i)['’](t|s|re|ve|ll|d|m)\b/gi) || [];
   const ithink = (low.match(/\bi think\b/g) || []).length;
   const retell = (low.match(/\b(and then|after that|then he|then she|then they|next,? he)\b/g) || []).length;
-  const names = ['winston', 'julia', 'o’brien', "o'brien", 'big brother', 'room 101', 'telescreen', 'newspeak', 'ministry', 'party', 'charrington', 'syme', 'parsons', 'goldstein', 'thought police', 'proles', 'doublethink'].filter(n => low.includes(n));
-  const planKeys = ['k2', 'k3', 'k4'].map(k => String(rgGet('p:' + k) || '').toLowerCase().match(/[a-z’'-]{4,}/g) || []);
+  const names = RG_BOOK.filter(n => low.includes(n));
+  const planKeys = ['k2', 'k3', 'k4'].map(k => String(rgGet('p:' + k) || rgGet('q:' + 'abc'[+k[1] - 2]) || '').toLowerCase().match(/[a-z’'-]{4,}/g) || []);
   const keyHit = planKeys.map(ws => !ws.length ? null : ws.some(x => low.includes(x)));
-  const res = [];
-  res.push([w >= 400 && w <= 500 ? 'ok' : 'no', rgT(`${w} orð (markmið 400–500)`, `${w} words (target 400–500)`)]);
-  res.push([ps.length === 5 ? 'ok' : 'no', rgT(`${ps.length} efnisgreinar (á að vera 5)`, `${ps.length} paragraphs (should be 5)`)]);
-  if (ps.length >= 5) { const miss = [1, 2, 3, 4].filter(i => !startsLink(ps[i])); res.push([miss.length ? 'no' : 'ok', miss.length ? rgT(`Efnisgrein ${miss.map(i => i + 1).join(', ')} byrjar ekki á tengiorði`, `Paragraph ${miss.map(i => i + 1).join(', ')} does not start with a linking word`) : rgT('Efnisgreinar 2–5 byrja allar á tengiorði', 'Paragraphs 2–5 all start with a linking word')]); }
-  if (ps.length >= 5) { const i0 = ps[0], lastS = i0.split(/(?<=[.!?])\s+/).pop() || ''; res.push([/,/.test(lastS) && /\band\b/i.test(lastS) ? 'ok' : 'hm', rgT('Endar inngangurinn á thesis með þrennum rökum (… A, B and C)?', 'Does the introduction end with a thesis with three arguments (… A, B and C)?')]); }
-  if (ps.length >= 5) res.push([/^(in conclusion|to conclude|to sum up|in summary|all in all|in light of|in short)/i.test(ps[ps.length - 1]) ? 'ok' : 'no', rgT('Lokaorðin byrja á samantektarorði (In conclusion…)', 'The conclusion starts with a summary phrase (In conclusion…)')]);
-  res.push([links.length >= 6 ? 'ok' : 'hm', rgT(`${links.length} mismunandi tengiorð (stefndu á 6+)`, `${links.length} different linking words (aim for 6+)`)]);
-  res.push([names.length >= 5 ? 'ok' : 'hm', rgT(`Ákveðin atriði úr bókinni: ${names.length} (${names.slice(0, 8).join(', ') || '–'})`, `Specific details from the book: ${names.length} (${names.slice(0, 8).join(', ') || '–'})`)]);
-  res.push([contr.length ? 'no' : 'ok', contr.length ? rgT(`Styttingar: ${[...new Set(contr)].join(', ')}`, `Contractions: ${[...new Set(contr)].join(', ')}`) : rgT('Engar styttingar', 'No contractions')]);
-  if (ithink > 2) res.push(['hm', rgT(`„I think“ kemur ${ithink} sinnum fyrir; reyndu að breyta til`, `“I think” appears ${ithink} times; try to vary it`)]);
-  if (retell > 1) res.push(['hm', rgT('Orð eins og „and then / after that“ benda til endursagnar. Ertu að meta eða segja frá?', 'Words like “and then / after that” suggest retelling. Are you evaluating or narrating?')]);
-  if (/\n\s*\n/.test(txt.trim())) res.push(['no', rgT('Auðar línur á milli efnisgreina; notaðu inndrátt í staðinn', 'Empty lines between paragraphs; use indentation instead')]);
-  if (keyHit.some(x => x !== null)) res.push([keyHit.every(x => x !== false) ? 'ok' : 'hm', rgT('Rökin úr áætluninni þinni sjást í textanum', 'The arguments from your plan appear in the text') + (keyHit.some(x => x === false) ? rgT(` (vantar: ${keyHit.map((x, i) => x === false ? 'ABC'[i] : '').filter(Boolean).join(', ')})`, ` (missing: ${keyHit.map((x, i) => x === false ? 'ABC'[i] : '').filter(Boolean).join(', ')})`) : '')]);
+  const res = [], next = [];
+  const add = (st, msg, fix) => { res.push([st, msg]); if (st !== 'ok' && fix) next.push([st, fix]); };
+  add(w >= 400 && w <= 500 ? 'ok' : 'no', rgT(`${w} orð (markmið 400–500)`, `${w} words (target 400–500)`), w < 400 ? rgT('Of stutt: bættu einu ákveðnu dæmi við hverja efnisgrein í meginmáli.', 'Too short: add one specific example to each body paragraph.') : rgT('Of langt: styttu lýsingar á söguþræði; haltu dæmunum.', 'Too long: cut plot description; keep the examples.'));
+  add(ps.length === 5 ? 'ok' : 'no', rgT(`${ps.length} efnisgreinar (á að vera 5)`, `${ps.length} paragraphs (should be 5)`), rgT('Fimm efnisgreinar: inngangur, þrenn rök, lokaorð. Ný efnisgrein = Enter + Tab.', 'Five paragraphs: introduction, three arguments, conclusion. New paragraph = Enter + Tab.'));
+  if (ps.length >= 5) { const miss = [1, 2, 3, 4].filter(i => !rgStartsLink(ps[i])); add(miss.length ? 'no' : 'ok', miss.length ? rgT(`Efnisgrein ${miss.map(i => i + 1).join(', ')} byrjar ekki á tengiorði`, `Paragraph ${miss.map(i => i + 1).join(', ')} does not start with a linking word`) : rgT('Efnisgreinar 2–5 byrja allar á tengiorði', 'Paragraphs 2–5 all start with a linking word'), rgT('Byrjaðu efnisgreinar 2–5 á Firstly / Secondly / Finally / In conclusion.', 'Start paragraphs 2–5 with Firstly / Secondly / Finally / In conclusion.')); }
+  if (ps.length >= 1) { const lastS = ps[0].split(/(?<=[.!?])\s+/).pop() || ''; add(/,/.test(lastS) && /\band\b/i.test(lastS) ? 'ok' : 'hm', rgT('Endar inngangurinn á thesis með þrennum rökum (… A, B and C)?', 'Does the introduction end with a thesis with three arguments (… A, B and C)?'), rgT('Síðasta setning inngangs: skoðun + „because A, B and C.“', 'Last sentence of the introduction: opinion + “because A, B and C.”')); }
+  if (ps.length >= 5) add(/^(in conclusion|to conclude|to sum up|in summary|all in all|in light of|in short)/i.test(ps[ps.length - 1]) ? 'ok' : 'no', rgT('Lokaorðin byrja á samantektarorði (In conclusion…)', 'The conclusion starts with a summary phrase (In conclusion…)'), rgT('Byrjaðu lokaorðin á „In conclusion,“ eða „To sum up,“.', 'Start the conclusion with “In conclusion,” or “To sum up,”.'));
+  if (ps.length >= 4) { const thin = [1, 2, 3].filter(i => ps[i] && rgSents(ps[i]) < 5); add(thin.length ? 'hm' : 'ok', thin.length ? rgT(`Efnisgrein ${thin.map(i => i + 1).join(', ')} hefur færri en 5 setningar`, `Paragraph ${thin.map(i => i + 1).join(', ')} has fewer than 5 sentences`) : rgT('Efnisgreinar 2–4 hafa allar a.m.k. 5 setningar', 'Paragraphs 2–4 all have at least 5 sentences'), rgT('Hver efnisgrein: topic + 3 setningar með dæmum + closing sentence.', 'Each paragraph: topic + 3 sentences with examples + closing sentence.')); }
+  add(links.length >= 6 ? 'ok' : 'hm', rgT(`${links.length} mismunandi tengiorð (stefndu á 6+)`, `${links.length} different linking words (aim for 6+)`), rgT('Bættu við tengiorðum inni í efnisgreinum: However, For example, Therefore, Moreover.', 'Add linking words inside paragraphs: However, For example, Therefore, Moreover.'));
+  add(names.length >= 5 ? 'ok' : 'hm', rgT(`Ákveðin atriði úr bókinni: ${names.length} (${names.slice(0, 8).join(', ') || '–'})`, `Specific details from the book: ${names.length} (${names.slice(0, 8).join(', ') || '–'})`), rgT('Nefndu nöfn, staði og atvik: Winston, Julia, O’Brien, Room 101, telescreens…', 'Name names, places and events: Winston, Julia, O’Brien, Room 101, telescreens…'));
+  add(contr.length ? 'no' : 'ok', contr.length ? rgT(`Styttingar: ${[...new Set(contr)].join(', ')}`, `Contractions: ${[...new Set(contr)].join(', ')}`) : rgT('Engar styttingar', 'No contractions'), rgT('Skrifaðu styttingar fullum fetum: do not, it is, cannot.', 'Write contractions in full: do not, it is, cannot.'));
+  if (ithink > 2) add('hm', rgT(`„I think“ kemur ${ithink} sinnum fyrir`, `“I think” appears ${ithink} times`), rgT('Fækkaðu „I think“; rökin sýna skoðunina.', 'Use fewer “I think”; the arguments show your opinion.'));
+  if (retell > 1) add('hm', rgT('Orð eins og „and then / after that“ benda til endursagnar', 'Words like “and then / after that” suggest retelling'), rgT('Metðu í stað þess að segja frá: „This shows…“, „This makes the reader feel…“.', 'Evaluate instead of narrating: “This shows…”, “This makes the reader feel…”.'));
+  if (/\n\s*\n/.test(txt.trim())) add('no', rgT('Auðar línur á milli efnisgreina', 'Empty lines between paragraphs'), rgT('Engar auðar línur; inndráttur (Tab) í staðinn.', 'No empty lines; indent (Tab) instead.'));
+  if (keyHit.some(x => x !== null)) add(keyHit.every(x => x !== false) ? 'ok' : 'hm', rgT('Rökin úr áætluninni þinni sjást í textanum', 'The arguments from your plan appear in the text') + (keyHit.some(x => x === false) ? rgT(` (vantar: ${keyHit.map((x, i) => x === false ? 'ABC'[i] : '').filter(Boolean).join(', ')})`, ` (missing: ${keyHit.map((x, i) => x === false ? 'ABC'[i] : '').filter(Boolean).join(', ')})`) : ''), rgT('Notaðu sömu lykilorð og í thesis í topic sentences.', 'Use the same keywords as your thesis in your topic sentences.'));
   const okN = res.filter(r => r[0] === 'ok').length;
-  $('#rgres').innerHTML = `<div class="rgbox red"><h3>${rgT('Sjálfvirk yfirferð', 'Automatic check')} · ${okN}/${res.length}</h3><ul class="rgres">${res.map(r => `<li class="${r[0]}">${r[1]}</li>`).join('')}</ul>
-    <p style="margin-bottom:0;color:var(--muted)">${rgT('Vélin telur og leitar að mynstrum; hún getur ekki metið hvort rökin eru góð. Farðu líka yfir gátlistann í „Verkefnið“ og lestu ritgerðina upphátt, eða fáðu einhvern til að lesa hana.', 'The machine counts and looks for patterns; it cannot judge whether your arguments are good. Also go through the checklist in “The task” and read the essay aloud, or ask someone to read it.')}</p></div>`;
+  next.sort((a, b) => (a[0] === 'no' ? 0 : 1) - (b[0] === 'no' ? 0 : 1));
+  $('#rgres').innerHTML = `<div class="rgbox red"><h3>${rgT('Sjálfvirk yfirferð', 'Automatic check')} · ${okN}/${res.length}</h3><ul class="rgres">${res.map(r => `<li class="${r[0]}">${r[1]}</li>`).join('')}</ul></div>
+    ${next.length ? `<div class="rgbox"><h3>${rgT('Lagaðu þetta í næstu tilraun', 'Fix this in your next attempt')}</h3><ol style="margin:0">${next.slice(0, 3).map(n => `<li>${n[1]}</li>`).join('')}</ol></div>` : `<div class="rgbox"><h3>${rgT('Frábært!', 'Excellent!')}</h3><p style="margin:0">${rgT('Allt sem vélin getur mælt er í lagi. Lestu nú yfir með gátlistanum og spurðu þig: eru rökin sannfærandi og dæmin ákveðin?', 'Everything the machine can measure is fine. Now read it with the checklist and ask yourself: are the arguments convincing and the examples specific?')}</p></div>`}
+    ${ps.length ? `<div class="rgbox"><h3>${rgT('Efnisgrein fyrir efnisgrein', 'Paragraph by paragraph')}</h3><table class="rgtbl" style="margin:0"><thead><tr><th>#</th><th>${rgT('Hlutverk', 'Role')}</th><th>${rgT('Orð', 'Words')}</th><th>${rgT('Setn.', 'Sent.')}</th><th>${rgT('Athugasemd', 'Note')}</th></tr></thead><tbody>${ps.map((p, i) => { const inf = rgParaInfo(p, i); return `<tr><td>${i + 1}</td><td>${RG_PROLE()[i] || '–'}</td><td>${inf.w}</td><td>${inf.s}</td><td>${inf.tips.length ? inf.tips.join('; ') : '✓'}</td></tr>`; }).join('')}</tbody></table></div>
+    <div class="rgbox"><h3>${rgT('Textinn þinn, merktur', 'Your text, marked')}</h3><div class="rglegend"><span><b class="lk">${rgT('tengiorð', 'linking word')}</b></span><span><b class="ct">${rgT('stytting', 'contraction')}</b></span><span><b class="it">I think</b></span><span><b class="rt">${rgT('endursögn?', 'retelling?')}</b></span></div><div class="rgessay-view" lang="en">${ps.map((p, i) => `<p${i ? ' class="ind"' : ''}>${rgMark(p)}</p>`).join('')}</div></div>` : ''}
+    <p style="color:var(--muted);font:15px/1.5 var(--f-text)">${rgT('Vélin telur og leitar að mynstrum; hún getur ekki metið hvort rökin eru góð. Berðu ritgerðina saman við sýnidæmin og gátlistann, og lestu hana upphátt.', 'The machine counts and looks for patterns; it cannot judge whether your arguments are good. Compare your essay with the samples and the checklist, and read it aloud.')} <button class="rgbtn alt" data-rggo="samples" style="margin:6px 0 0">${rgT('Opna sýnidæmin', 'Open the samples')}</button></p>`;
+  const go = $('[data-rggo]'); if (go) go.onclick = () => { RG.sub = 'samples'; rgSet('sub', RG.sub); renderRitgerd(); };
   const used = RG.started ? Math.round((Date.now() - RG.started) / 60000) : null;
   const hist = store.get('rg:hist', []); hist.push({ d: new Date().toLocaleDateString(L === 'is' ? 'is-IS' : 'en-GB'), w, p: ps.length, m: used, s: `${okN}/${res.length}` }); store.set('rg:hist', hist.slice(-20));
   RG.started = 0;
@@ -329,18 +527,21 @@ function rgDrillBind() {
     };
     $('#rgmclr').onclick = () => { $$('[data-mem]').forEach(d => { d.classList.remove('show'); $('input', d).value = ''; }); $('#rgmres').innerHTML = ''; const f = $('[data-mem] input'); if (f) f.focus(); };
   }
+  $$('[data-rgq]').forEach(el => el.oninput = () => { rgSet('q:' + el.dataset.rgq, el.value); rgCount(); });
+  $('#rgqclr').onclick = () => { ['thesis', 'a', 'b', 'c', 'end'].forEach(k => rgSet('q:' + k, '')); $$('[data-rgq]').forEach(el => el.value = ''); rgCount(); };
   const ta = $('#rgessay');
   ta.oninput = () => { rgSet('draft', ta.value); rgCount(); };
   ta.onkeydown = e => { if (e.key === 'Tab' && !e.shiftKey) { e.preventDefault(); const s = ta.selectionStart, en = ta.selectionEnd; ta.value = ta.value.slice(0, s) + '\t' + ta.value.slice(en); ta.selectionStart = ta.selectionEnd = s + 1; ta.oninput(); } };
   rgCount();
+  $('#rghint').onclick = rgHint;
   $('#rgdur').onchange = e => { RG.dur = +e.target.value; store.set('rg:dur', RG.dur); if (!RG.end) $('#rgclock').textContent = `${String(RG.dur).padStart(2, '0')}:00`; };
   $('#rgstart').onclick = () => {
-    if (RG.end) { clearInterval(RG.iv); RG.iv = 0; RG.end = 0; $('#rgstart').textContent = rgT('Byrja', 'Start'); return; }
+    if (RG.end) { clearInterval(RG.iv); RG.iv = 0; RG.end = 0; $('#rgstart').textContent = rgT('Byrja', 'Start'); rgPace(); return; }
     RG.end = Date.now() + RG.dur * 60000; RG.started = Date.now(); $('#rgstart').textContent = rgT('Stöðva', 'Stop');
     clearInterval(RG.iv); RG.iv = setInterval(rgTick, 1000); rgTick(); ta.focus();
   };
   if (RG.end) { clearInterval(RG.iv); RG.iv = setInterval(rgTick, 1000); rgTick(); }
-  $('#rgdone').onclick = () => { if (RG.end) { clearInterval(RG.iv); RG.iv = 0; RG.end = 0; $('#rgstart').textContent = rgT('Byrja', 'Start'); } rgCheck(false); $('#rgres').scrollIntoView({ behavior: 'smooth', block: 'start' }); };
-  $('#rgnew').onclick = () => { const b = $('#rgnew'); if (ta.value.trim() && !b.dataset.sure) { b.dataset.sure = 1; b.textContent = rgT('Ýttu aftur: eyðir uppkastinu', 'Click again: deletes the draft'); return; } ta.value = ''; rgSet('draft', ''); rgCount(); $('#rgres').innerHTML = ''; delete b.dataset.sure; b.textContent = rgT('Nýtt uppkast', 'New draft'); ta.focus(); };
+  $('#rgdone').onclick = () => { if (RG.end) { clearInterval(RG.iv); RG.iv = 0; RG.end = 0; $('#rgstart').textContent = rgT('Byrja', 'Start'); rgPace(); } rgCheck(false); $('#rgres').scrollIntoView({ behavior: 'smooth', block: 'start' }); };
+  $('#rgnew').onclick = () => { const b = $('#rgnew'); if (ta.value.trim() && !b.dataset.sure) { b.dataset.sure = 1; b.textContent = rgT('Ýttu aftur: eyðir uppkastinu', 'Click again: deletes the draft'); return; } ta.value = ''; rgSet('draft', ''); rgCount(); $('#rgres').innerHTML = ''; $('#rghintbox').innerHTML = ''; delete b.dataset.sure; b.textContent = rgT('Nýtt uppkast', 'New draft'); ta.focus(); };
 }
 
