@@ -535,7 +535,7 @@ const RG_LADDER = {
 /* --- hlustun: ritgerðin á endurtekningu (heldur áfram með læstan síma) --- */
 const RGA_RATES_OK = r => [0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.25, 1.5].includes(+r) ? +r : 1;
 const RGA = { a: null, ver: store.get('rg:aver', 'full'), rate: RGA_RATES_OK(store.get('rg:arate', 1)), loop: store.get('rg:aloop', true), url: {}, state: '', laps: 0 };
-const RGA_FILES = { full: '1984/ritgerd/n1-ryan-slow.mp3', hle: '1984/ritgerd/n1-ryan-hle-slow.mp3' };
+const RGA_FILES = { full: '1984/ritgerd/n1-ryan-v3.mp3', hle: '1984/ritgerd/n1-ryan-hle-v3.mp3' };
 const RGA_RATES = [0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.25, 1.5];
 async function rgaUrl(ver, dl) {
   const k = ver + (dl ? ':dl' : ''), c = RGA.url[k];
