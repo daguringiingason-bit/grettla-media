@@ -533,9 +533,10 @@ const RG_LADDER = {
   3: 'Firstly, Winston is a hero the reader can genuinely believe in, precisely because he is not heroic. Frail, middle-aged and troubled by an ulcer, he lives in constant fear of the Thought Police. Yet he risks everything by keeping a diary, a small act of defiance that the reader instantly understands. His guilt about the past adds a depth many fictional heroes lack. In short, it is Winston’s weaknesses that make him so convincing.'
 };
 /* --- hlustun: ritgerðin á endurtekningu (heldur áfram með læstan síma) --- */
-const RGA = { a: null, ver: store.get('rg:aver', 'full'), rate: store.get('rg:arate', 1), loop: store.get('rg:aloop', true), url: {}, state: '', laps: 0 };
-const RGA_FILES = { full: '1984/ritgerd/n1-ryan.mp3', hle: '1984/ritgerd/n1-ryan-hle.mp3' };
-const RGA_RATES = [0.8, 0.9, 1, 1.1, 1.25];
+const RGA_RATES_OK = r => [0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.25, 1.5].includes(+r) ? +r : 1;
+const RGA = { a: null, ver: store.get('rg:aver', 'full'), rate: RGA_RATES_OK(store.get('rg:arate', 1)), loop: store.get('rg:aloop', true), url: {}, state: '', laps: 0 };
+const RGA_FILES = { full: '1984/ritgerd/n1-ryan-slow.mp3', hle: '1984/ritgerd/n1-ryan-hle-slow.mp3' };
+const RGA_RATES = [0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.25, 1.5];
 async function rgaUrl(ver, dl) {
   const k = ver + (dl ? ':dl' : ''), c = RGA.url[k];
   if (c && c.t > Date.now()) return c.u;
@@ -596,7 +597,7 @@ function rgListenBox() {
     <div class="rga-opts">
       <span class="rgmode" role="toolbar"><button data-aver="full" aria-pressed="${RGA.ver === 'full'}">${rgT('Í heild', 'Whole essay')}</button><button data-aver="hle" aria-pressed="${RGA.ver === 'hle'}">${rgT('Hlé eftir hverja setningu', 'Pause after each sentence')}</button></span>
       <button class="rga-loop rgbtn alt" aria-pressed="${RGA.loop}">⟲ ${rgT('Endurtaka', 'Repeat')}</button>
-      <label class="rga-rate">${rgT('Hraði', 'Speed')} <select>${RGA_RATES.map(r => `<option value="${r}" ${r === RGA.rate ? 'selected' : ''}>${L === 'is' ? String(r).replace('.', ',') : r}×</option>`).join('')}</select></label>
+      <label class="rga-rate">${rgT('Hraði', 'Speed')} <select title="${rgT('Upplesturinn sjálfur er hægur; 1× er rólegur talhraði', 'The reading itself is slow; 1× is a calm pace')}">${RGA_RATES.map(r => `<option value="${r}" ${r === RGA.rate ? 'selected' : ''}>${L === 'is' ? String(r).replace('.', ',') : r}×</option>`).join('')}</select></label>
       <button class="rga-dl rgbtn alt">${rgT('Sækja mp3', 'Download mp3')}</button>
     </div>
     <p class="rga-help">${rgT('Ýttu á spila og læstu svo símanum: ritgerðin heldur áfram í hring. Ekki loka vafranum eða flipanum, bara læsa skjánum. Í útgáfunni með hléum endurtekurðu hverja setningu upphátt í þögninni, eða segir næstu setningu áður en hún kemur. Viltu hlusta án vafrans? Sæktu mp3 og settu það á endurtekningu í tónlistarforriti.', 'Press play and lock your phone: the essay keeps going on repeat. Do not close the browser or the tab, just lock the screen. In the version with pauses, repeat each sentence aloud in the silence, or say the next sentence before it comes. Want to listen without the browser? Download the mp3 and put it on repeat in a music app.')}</p></div>`;
