@@ -165,6 +165,18 @@ b.ct{background:rgba(193,18,31,.25);color:inherit}b.it{background:rgba(230,170,0
 .rgladder>div{border:3px solid var(--line);background:var(--paper);padding:12px 14px}
 .rgladder h4{margin:0 0 8px;font:700 15px/1.2 var(--f-head);letter-spacing:.08em;text-transform:uppercase;display:flex;gap:8px;align-items:center}
 .rgladder p{margin:0;font:16px/1.6 var(--f-text)}
+.rgaud{border:3px solid var(--line);background:var(--paper);padding:14px 16px;margin:0 0 18px}
+.rga-row{display:flex;gap:14px;align-items:center}
+.rga-pp{flex:none;width:58px;height:58px;border-radius:50%;border:0;background:var(--red);color:#fff;font:700 22px/1 var(--f-head);cursor:pointer}
+.rga-mid{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.rga-mid b{font:700 17px/1.1 var(--f-head);text-transform:uppercase;letter-spacing:.04em}
+.rga-st{font:14px/1.3 var(--f-text);color:var(--muted);min-height:18px}
+.rga-bar{height:6px;background:var(--bg);border:1px solid var(--line)}.rga-bar i{display:block;height:100%;width:0;background:var(--red)}
+.rga-opts{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:12px 0 0}
+.rga-opts .rgmode{margin:0}.rga-opts .rgbtn{margin:0;padding:9px 12px;font-size:13px}
+.rga-loop[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.rga-rate{font:600 13px/1 var(--f-head);letter-spacing:.06em;text-transform:uppercase}.rga-rate select{font:14px var(--f-head);padding:6px;background:var(--bg);color:var(--ink);border:2px solid var(--line)}
+.rga-help{font:14px/1.5 var(--f-text);color:var(--muted);margin:10px 0 0}
 `;
   document.head.appendChild(st);
 }
@@ -520,6 +532,85 @@ const RG_LADDER = {
   2: 'Firstly, Winston is a believable main character because he is so ordinary. He is thirty-nine, thin and often ill, and he is constantly afraid of the Thought Police. Even so, he starts a secret diary, which could cost him his life. Because of this, the reader worries about him from the very first chapter. In short, his weaknesses make him easy to believe in.',
   3: 'Firstly, Winston is a hero the reader can genuinely believe in, precisely because he is not heroic. Frail, middle-aged and troubled by an ulcer, he lives in constant fear of the Thought Police. Yet he risks everything by keeping a diary, a small act of defiance that the reader instantly understands. His guilt about the past adds a depth many fictional heroes lack. In short, it is Winston’s weaknesses that make him so convincing.'
 };
+/* --- hlustun: ritgerðin á endurtekningu (heldur áfram með læstan síma) --- */
+const RGA = { a: null, ver: store.get('rg:aver', 'full'), rate: store.get('rg:arate', 1), loop: store.get('rg:aloop', true), url: {}, state: '', laps: 0 };
+const RGA_FILES = { full: '1984/ritgerd/n1-ryan.mp3', hle: '1984/ritgerd/n1-ryan-hle.mp3' };
+const RGA_RATES = [0.8, 0.9, 1, 1.1, 1.25];
+async function rgaUrl(ver, dl) {
+  const k = ver + (dl ? ':dl' : ''), c = RGA.url[k];
+  if (c && c.t > Date.now()) return c.u;
+  const opt = dl ? { download: ver === 'hle' ? '1984-ritgerd-med-hleum.mp3' : '1984-ritgerd.mp3' } : undefined;
+  const { data, error } = await window.Grettla.sb.storage.from('hljod').createSignedUrl(RGA_FILES[ver], 6 * 3600, opt);
+  if (error || !data) throw error || new Error('no url');
+  RGA.url[k] = { u: data.signedUrl, t: Date.now() + 5.5 * 3600 * 1000 };
+  return data.signedUrl;
+}
+function rgaUi() {
+  $$('.rgaud').forEach(box => {
+    const pp = $('.rga-pp', box), st = $('.rga-st', box);
+    if (pp) pp.textContent = RGA.state === 'play' ? '❚❚' : '▶';
+    if (pp) pp.setAttribute('aria-label', RGA.state === 'play' ? rgT('Gera hlé', 'Pause') : rgT('Spila', 'Play'));
+    if (st) st.textContent = RGA.state === 'load' ? rgT('Sæki hljóð…', 'Loading audio…') : RGA.state === 'err' ? rgT('Ekki tókst að sækja hljóðið. Ertu innskráð(ur)?', 'Could not load the audio. Are you logged in?') : RGA.state === 'play' ? rgT(`Spilar${RGA.loop ? ' í hring' : ''}${RGA.laps ? ` · umferð ${RGA.laps + 1}` : ''}`, `Playing${RGA.loop ? ' on repeat' : ''}${RGA.laps ? ` · round ${RGA.laps + 1}` : ''}`) : '';
+    const bar = $('.rga-bar i', box); if (bar && RGA.a && RGA.a.duration) bar.style.width = (RGA.a.currentTime / RGA.a.duration * 100) + '%';
+    $$('[data-aver]', box).forEach(b => b.setAttribute('aria-pressed', b.dataset.aver === RGA.ver));
+    const lp = $('.rga-loop', box); if (lp) lp.setAttribute('aria-pressed', RGA.loop);
+  });
+}
+function rgaMedia() {
+  if (!('mediaSession' in navigator)) return;
+  try {
+    navigator.mediaSession.metadata = new MediaMetadata({ title: RGA.ver === 'hle' ? 'Why Nineteen Eighty-Four Still Matters (með hléum)' : 'Why Nineteen Eighty-Four Still Matters', artist: 'Ritgerð · 1984', album: 'grettla.com' });
+    navigator.mediaSession.setActionHandler('play', () => rgaPlay());
+    navigator.mediaSession.setActionHandler('pause', () => { if (RGA.a) RGA.a.pause(); });
+    navigator.mediaSession.setActionHandler('seekbackward', () => { if (RGA.a) RGA.a.currentTime = Math.max(0, RGA.a.currentTime - 10); });
+    navigator.mediaSession.setActionHandler('seekforward', () => { if (RGA.a) RGA.a.currentTime = Math.min(RGA.a.duration || 0, RGA.a.currentTime + 10); });
+    navigator.mediaSession.setActionHandler('previoustrack', () => { if (RGA.a) RGA.a.currentTime = 0; });
+  } catch (_) {}
+}
+async function rgaPlay() {
+  try {
+    if (typeof Player !== 'undefined' && Player.pause) Player.pause();
+    if (typeof SumAudio !== 'undefined' && SumAudio.pause) SumAudio.pause();
+  } catch (_) {}
+  if (!RGA.a) {
+    RGA.a = new Audio(); RGA.a.preload = 'auto';
+    RGA.a.addEventListener('play', () => { RGA.state = 'play'; rgaUi(); });
+    RGA.a.addEventListener('pause', () => { if (RGA.state !== 'load') RGA.state = ''; rgaUi(); });
+    RGA.a.addEventListener('timeupdate', () => { const t = RGA.a.currentTime; if (RGA.last > 5 && t < 1) RGA.laps++; RGA.last = t; rgaUi(); });
+    RGA.a.addEventListener('ended', () => { RGA.state = ''; rgaUi(); });
+    RGA.a.addEventListener('error', () => { RGA.state = 'err'; RGA.url = {}; rgaUi(); });
+  }
+  if (!RGA.a.src || RGA.a.dataset.ver !== RGA.ver) {
+    RGA.state = 'load'; rgaUi();
+    try { RGA.a.src = await rgaUrl(RGA.ver); RGA.a.dataset.ver = RGA.ver; RGA.laps = 0; RGA.last = 0; } catch (e) { RGA.state = 'err'; rgaUi(); return; }
+  }
+  RGA.a.loop = RGA.loop; RGA.a.playbackRate = RGA.rate;
+  rgaMedia();
+  try { await RGA.a.play(); } catch (e) { RGA.state = 'err'; rgaUi(); }
+}
+function rgListenBox() {
+  return `<div class="rgaud"><div class="rga-row">
+      <button class="rga-pp" aria-label="${rgT('Spila', 'Play')}">▶</button>
+      <div class="rga-mid"><b>${rgT('Hlustaðu á ritgerðina', 'Listen to the essay')}</b><span class="rga-st" aria-live="polite"></span><div class="rga-bar"><i></i></div></div>
+    </div>
+    <div class="rga-opts">
+      <span class="rgmode" role="toolbar"><button data-aver="full" aria-pressed="${RGA.ver === 'full'}">${rgT('Í heild', 'Whole essay')}</button><button data-aver="hle" aria-pressed="${RGA.ver === 'hle'}">${rgT('Hlé eftir hverja setningu', 'Pause after each sentence')}</button></span>
+      <button class="rga-loop rgbtn alt" aria-pressed="${RGA.loop}">⟲ ${rgT('Endurtaka', 'Repeat')}</button>
+      <label class="rga-rate">${rgT('Hraði', 'Speed')} <select>${RGA_RATES.map(r => `<option value="${r}" ${r === RGA.rate ? 'selected' : ''}>${L === 'is' ? String(r).replace('.', ',') : r}×</option>`).join('')}</select></label>
+      <button class="rga-dl rgbtn alt">${rgT('Sækja mp3', 'Download mp3')}</button>
+    </div>
+    <p class="rga-help">${rgT('Ýttu á spila og læstu svo símanum: ritgerðin heldur áfram í hring. Ekki loka vafranum eða flipanum, bara læsa skjánum. Í útgáfunni með hléum endurtekurðu hverja setningu upphátt í þögninni, eða segir næstu setningu áður en hún kemur. Viltu hlusta án vafrans? Sæktu mp3 og settu það á endurtekningu í tónlistarforriti.', 'Press play and lock your phone: the essay keeps going on repeat. Do not close the browser or the tab, just lock the screen. In the version with pauses, repeat each sentence aloud in the silence, or say the next sentence before it comes. Want to listen without the browser? Download the mp3 and put it on repeat in a music app.')}</p></div>`;
+}
+function rgListenBind() {
+  $$('.rgaud').forEach(box => {
+    $('.rga-pp', box).onclick = () => { if (RGA.a && RGA.state === 'play') RGA.a.pause(); else rgaPlay(); };
+    $$('[data-aver]', box).forEach(b => b.onclick = () => { const was = RGA.state === 'play'; RGA.ver = b.dataset.aver; store.set('rg:aver', RGA.ver); if (RGA.a) { RGA.a.pause(); RGA.a.removeAttribute('src'); RGA.a.dataset.ver = ''; } RGA.state = ''; rgaUi(); if (was) rgaPlay(); });
+    $('.rga-loop', box).onclick = () => { RGA.loop = !RGA.loop; store.set('rg:aloop', RGA.loop); if (RGA.a) RGA.a.loop = RGA.loop; rgaUi(); };
+    $('.rga-rate select', box).onchange = e => { RGA.rate = +e.target.value; store.set('rg:arate', RGA.rate); if (RGA.a) RGA.a.playbackRate = RGA.rate; };
+    $('.rga-dl', box).onclick = async () => { try { const u = await rgaUrl(RGA.ver, true); const a = document.createElement('a'); a.href = u; a.rel = 'noopener'; document.body.appendChild(a); a.click(); a.remove(); } catch (e) { RGA.state = 'err'; rgaUi(); } };
+  });
+  rgaUi();
+}
 /* --- sýnidæmi: viðmót --- */
 const RG_ROLES = { hook: ['Kveikja', 'Hook'], disc: ['Umræða', 'Discussion'], thesis: ['Thesis', 'Thesis'], topic: ['Topic sentence', 'Topic sentence'], sup: ['Stuðningur og dæmi', 'Support and examples'], close: ['Closing sentence', 'Closing sentence'], restate: ['Thesis endurorðuð', 'Thesis restated'], wide: ['Endað vítt', 'Ending wide'] };
 const rgLinkRe = () => new RegExp(`(^|[\\s“"(])(${[...RG_LINK].sort((a, b) => b.length - a.length).map(l => l.replace(/ /g, '\\s+')).join('|')})(?=[\\s,.;:])`, 'gi');
@@ -548,6 +639,7 @@ function rgSamples() {
   <div class="rgess-bar">${rgDots(e.lvl)} <b>${lvT[0]}</b> · ${words} ${rgT('orð', 'words')} · ${rgT('Kveikja', 'Hook')}: ${e.hook[L]}</div>
   ${mode !== 'plain' ? `<div class="rglegend">${['hook', 'disc', 'thesis', 'topic', 'sup', 'close', 'restate', 'wide'].map(r => `<span class="sg ${r}">${RG_ROLES[r][L === 'is' ? 0 : 1]}</span>`).join('')}<span><b class="lk">${rgT('tengiorð', 'linking word')}</b></span></div>` : ''}
   ${mode === 'skel' ? `<p class="rgnote">${rgT('Beinagrindin: thesis, topic sentences og closing sentences. Ef þú lest bara þetta ættirðu samt að skilja alla röksemdafærsluna. Þannig á þín ritgerð líka að virka.', 'The skeleton: thesis, topic sentences and closing sentences. Reading only these, you should still follow the whole argument. That is how your essay should work too.')}</p>` : ''}
+  ${e.id === 'n1' ? rgListenBox() : ''}
   <article class="rgessay-view ${mode !== 'plain' ? 'struct' : ''}" lang="en"><h3>${esc(e.title)}</h3>${e.p.map((p, i) => `<p${i ? ' class="ind"' : ''}>${mode !== 'plain' ? `<em class="pn">${i + 1}</em>` : ''}${p.map(seg).join(' ')}</p>`).join('')}</article>
   <div class="rggrid">
     <div class="rgbox"><h3 style="color:#2d7a3e">${rgT('Það sem er gott', 'What works')}</h3><ul style="margin:0">${e.good[L].map(n => `<li>${n}</li>`).join('')}</ul></div>
@@ -568,6 +660,7 @@ function rgSamplesBind() {
   $$('[data-ess]').forEach(b => b.onclick = keep(() => store.set('rg:essid', b.dataset.ess)));
   $$('[data-mode]').forEach(b => b.onclick = keep(() => store.set('rg:mode', b.dataset.mode)));
   $$('[data-upshow]').forEach(b => b.onclick = () => { b.closest('.rgup').classList.add('show'); b.remove(); });
+  rgListenBind();
 }
 /* --- 06 æfing --- */
 const RG_PHASES = () => [[0.08, rgT('Beinagrind', 'Plan')], [0.14, rgT('Inngangur', 'Intro')], [0.2, rgT('Efnisgr. 2', 'Para 2')], [0.2, rgT('Efnisgr. 3', 'Para 3')], [0.2, rgT('Efnisgr. 4', 'Para 4')], [0.1, rgT('Lokaorð', 'Concl.')], [0.08, rgT('Yfirlestur', 'Check')]];
@@ -578,6 +671,9 @@ function rgDrill() {
   const hasPlan = keys.some(k => String(rgGet('p:' + k[0]) || '').trim());
   const qp = [['thesis', rgT('Thesis: skoðun + A, B, C', 'Thesis: opinion + A, B, C')], ['a', rgT('A: rök + eitt dæmi', 'A: argument + one example')], ['b', rgT('B: rök + eitt dæmi', 'B: argument + one example')], ['c', rgT('C: rök + eitt dæmi', 'C: argument + one example')], ['end', rgT('Lokaskilaboð til lesandans', 'Final message to the reader')]];
   return `<div class="rgbox red"><h3>${rgT('Hvernig á að æfa sig', 'How to practise')}</h3><ol style="margin:0">${(L === 'is' ? ['<b>Minnisæfing</b> (2 mín): skrifaðu thesis og lyklana eftir minni.', '<b>Beinagrind</b> (3 mín): punktaðu niður 5 línur áður en klukkan fer af stað. Hún sést við hliðina á textanum á meðan þú skrifar.', '<b>Skrifaðu á tíma.</b> Kortið til hliðar sýnir hverja efnisgrein og tímalínan segir hvort þú sért á áætlun. Ef þú festist: „Ég er stopp“.', '<b>Farðu yfir.</b> Lestu yfirferðina og merkta textann og lagaðu þá 2–3 hluti sem skipta mestu í næstu tilraun.'] : ['<b>Memory drill</b> (2 min): write your thesis and keys from memory.', '<b>Skeleton</b> (3 min): jot down 5 lines before starting the clock. It stays next to your text while you write.', '<b>Write against the clock.</b> The map beside the text shows each paragraph and the timeline tells you if you are on schedule. If you get stuck: “I am stuck”.', '<b>Check.</b> Read the feedback and the marked text and fix the 2–3 things that matter most in your next attempt.']).map(x => `<li>${x}</li>`).join('')}</ol></div>
+  <h2>0 · ${rgT('Hlustaðu', 'Listen')}</h2>
+  <p>${rgT('Ritgerðin „Why Nineteen Eighty-Four Still Matters“ upplesin. Best er að hlusta eftir að hafa æft á blaði, t.d. á leiðinni í skólann.', 'The essay “Why Nineteen Eighty-Four Still Matters” read aloud. It works best after practising on paper, e.g. on the way to school.')}</p>
+  ${rgListenBox()}
   <h2>1 · ${rgT('Minnisæfing', 'Memory drill')}</h2>
   <div class="rgbox">${hasPlan ? `<p style="margin-top:0">${rgT('Skrifaðu thesis og minnislyklana eftir minni. Svo berðu saman við áætlunina.', 'Write your thesis and memory keys from memory. Then compare with your plan.')}</p>
     <div class="rgmem">${keys.map(([k, l]) => `<div data-mem="${k}"><div class="rgf" style="margin:0"><label for="rgm-${k}">${l}</label><input type="text" id="rgm-${k}" lang="en" autocomplete="off"></div><div class="ans" lang="en">${esc(rgGet('p:' + k)) || '—'}</div></div>`).join('')}</div>
@@ -719,6 +815,7 @@ function rgCheck(timed) {
   RG.started = 0;
 }
 function rgDrillBind() {
+  rgListenBind();
   const mc = $('#rgmchk');
   if (mc) {
     mc.onclick = () => {
